@@ -41,6 +41,16 @@
         text-align: center;
         width: 50em;  
       }
+
+      .price {
+        margin-top: -20px;
+        font-weight: 300;
+      }
+
+      .lossgain {
+        margin-top: -20px;
+        font-weight: 300;
+      }
 	    
       input {
         font-size: 14px;
@@ -74,17 +84,31 @@
         transform: rotate(360deg);
       }
 
+      .blackbold {
+        color:black;
+        font-weight: 400;
+      }
+    
+
     </style>
 	</head>
 	<body>
 
-    <form action="/" method="POST">
-      <input type="text" name="name" placeholder="Crypto" autocomplete="off">
-			<button type="submit" onclick="process()">Pick Crypto</button>
-      <h1>{{ name }}</h1>
-      
-      </form>
 
+
+    <form action="/" method="POST">
+      <input type="text" name="name" placeholder="Symbol" autocomplete="off">
+			<button type="submit" onclick="process()">Pick Stock</button>
+      <h1>{{ title }}</h1>
+      <h1 class="price"><b class="blackbold">Price: </b>{{ price }}</h1>
+      <h1 class="lossgain" id="lgcolor"><b class="blackbold">Loss/Gain:</b> {{ lossgain }}</h1>
+      
+      <script>
+        var lossgain = document.getElementById('lgcolor');
+        lossgain.style.color = '{{ colorlg }}';
+      </script>
+
+      </form>
 
 	</body>
 </html>
