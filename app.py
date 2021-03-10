@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 app = Flask(__name__)
 app.secret_key = "asdf"
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/', methods=['POST'])
 
 def process():
   name = request.form.get('name','')
@@ -23,12 +23,16 @@ def process():
   url = "https://ca.finance.yahoo.com/quote/" + name
   
   url2 = 'https://ca.finance.yahoo.com/quote/'+ name +'/key-statistics'
+
+  url3 = 'https://ca.finance.yahoo.com/quote/'+ name +'/profile'
   
   r = requests.get(url)
   s = requests.get(url2)
+  t = requests.get(url3)
   
   soup = BeautifulSoup(r.text, 'html.parser')
   soup2 = BeautifulSoup(s.text, 'html.parser')
+  soup3 = BeautifulSoup(t.text, 'html.parser')
   
   
   lossgain = soup.find('div', {'class': 'D(ib) Mend(20px)' }).find_all('span')[1].text
@@ -45,6 +49,8 @@ def process():
   
   title = soup2.find('h1', {'class': 'D(ib) Fz(18px)'}).text
 
+  logo = soup3.find('p', {'class': 'D(ib) W(47.727%) Pend(40px)'}).find_all('a')[1].text.replace('http://www.', '')
+
   colorlg = "GREEN"
 
   if "+" not in lossgain: 
@@ -57,7 +63,7 @@ def process():
   print("Enterprise Value:" ,enterpriseval)
   print("---------------------------")
 
-  return render_template('index.html', name=name, price=price, title=title, colorlg=colorlg, lossgain=lossgain)
+  return render_template('index.html', name=name, price=price, title=title, colorlg=colorlg, lossgain=lossgain, logo=logo)
   
 if __name__ == '__main__':
   app.run(host="0.0.0.0", threaded=True, port=5000)
