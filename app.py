@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 app = Flask(__name__)
 app.secret_key = "asdf"
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET'])
 
 def process():
   name = request.form.get('name','')
